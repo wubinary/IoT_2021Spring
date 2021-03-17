@@ -1,17 +1,16 @@
-## Support Functions
-
-![](https://i.imgur.com/KS7QVUs.png =500x)
+## Suport Functions
+<img src="https://i.imgur.com/KS7QVUs.png" width="500x">
 
 ## System Architecture Overview
-![](https://i.imgur.com/7m8kSSh.png =600x)
+<img src="https://i.imgur.com/7m8kSSh.png" width="600x">
 
 ## Video Stream
-![](https://i.imgur.com/EoymRln.png =600x)
+<img src="https://i.imgur.com/EoymRln.png" width="500x">
 
 ## Web Framework
-![](https://i.imgur.com/mzNbnOy.png =600x)
+<img src="https://i.imgur.com/mzNbnOy.png" width="500x">
 
 ## Device-End Overall
-![](https://i.imgur.com/PKxj3oq.png =500x)
+<img src="https://i.imgur.com/PKxj3oq.png" width="450x">
 
 ## Demo
