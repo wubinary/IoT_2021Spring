@@ -1,0 +1,230 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- fontawesome-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+ 	<!-- Latest compiled and minified CSS Bootstrap 4.0 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<style>
+		@-moz-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Firefox */
+		@-webkit-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Webkit */
+		@-ms-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* IE */
+		@keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Opera and prob css3 final iteration */
+		#have_knock {
+			animation: blink 1s;
+    		animation-iteration-count: infinite;
+			display: none;
+		}
+		#alert {
+			animation: blink 1s;
+    		animation-iteration-count: infinite;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<!-- Heading -->
+		<div class="row d-flex justify-content-center" style="padding:20px; border:5px solid black; margin:5px;">
+			<h1>IoT-2021 Spring <span class="badge badge-secondary">Hw1: Watch Door</span></h1>
+		</div>
+		<!-- Navbar -->
+		<div class="" style="margin:3px">
+			<div class="">
+			<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+				 <form class="form-inline" action="">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text">@</span>
+						</div>
+						<input type="text" class="form-control" placeholder="Username">
+					</div>
+				</form>
+				<ul class="navbar-nav navbar-nav-right">
+					<li class="nav-item">
+						<a class="nav-link disabled" href="#">__________</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#"><i class="fas fa-home"></i>首頁</a>
+					</li>|
+					<li class="nav-item">
+						<a class="nav-link" href="#"><i class="fas fa-microchip"></i>裝置</a>
+					</li>|
+					<li class="nav-item">
+						<a class="nav-link" href="#"><i class="fas fa-bed"></i>睡眠</a>
+					</li>|
+					<li class="nav-item">
+						<div class="nav-link quiet" href="#" onclick="quiet.onclick"><i class="fas fa-bell-slash"></i>勿擾</div>
+					</li>|
+					<li class="nav-item">
+						<a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i>登入</a>
+					</li>
+				</ul>
+			</nav>
+			</div>
+		</div>
+		<!-- Show Abnormal images & live-stream -->
+		<div class="row d-flex justify-content-center">
+			<div class="col-8">
+				<h5></h5>
+				<div class="alert alert-danger">
+					  <strong>Abnormal Detection!</strong> Please aware of those abnormal events.
+				</div>
+				<div class="row" id="abnormal_imgs">
+					<div class="col-4">
+						<img src="/ring/get_abnormal_image/0/" class="img-thumbnail abnormal_image" alt="Cinque Terre">	
+						<p class="abnormal_time">2021/</p>
+					</div>
+					<div class="col-4">
+						<img src="/ring/get_abnormal_image/1/" class="img-thumbnail abnormal_image" alt="Cinque Terre">	
+						<p class="abnormal_time">2021/</p>
+					</div>
+					<div class="col-4">
+						<img src="/ring/get_abnormal_image/2/" class="img-thumbnail abnormal_image" alt="Cinque Terre">	
+						<p class="abnormal_time">2021/</p>
+					</div>
+					<div class="col-4">
+						<img src="/ring/get_abnormal_image/3/" class="img-thumbnail abnormal_image" alt="Cinque Terre">
+						<p class="abnormal_time">2021/</p>
+					</div>
+					<div class="col-4">
+						<img src="/ring/get_abnormal_image/4/" class="img-thumbnail abnormal_image" alt="Cinque Terre">
+						<p class="abnormal_time">2021/</p>
+					</div>
+					<div class="col-4">
+						<img src="/ring/get_abnormal_image/5/" class="img-thumbnail abnormal_image" alt="Cinque Terre">
+						<p class="abnormal_time">2021/</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-4"> 
+				<h5></h5>
+				<div class="alert alert-success">
+					  <strong>Live!</strong> This is your house.
+				</div>
+				<div>
+					<iframe src="{{ video_page_url }}" height="240" width="100%" frameborder="0" scrolling="no">{{ video_page_url }}</iframe>
+				</div>
+			</div>
+		</div>
+		<!-- Unlock form -->
+		<div class="row" style="background: #eeeeff;">
+			<div class="col-7 d-flex justify-content-end">
+				<div class="d-flex flex-column align-items-center">
+					<strong> click to unlock </strong>
+					<form action="/ring/unlock_page/" method="post" id="form"> {% csrf_token %}
+						<button type="submit" value="OpenDoor" class="btn btn-success" id="unlock_button">
+							<i class="fas fa-unlock-alt fa-5x" style="font-size: 50px; display: none;" id="unlock_icon"></i>
+							<i class="fas fa-lock fa-5x" style="font-size:50px;" id="lock_icon"></i>
+						</button>
+					</form>
+				</div>
+			</div>
+			<div class="col-3 d-flex justify-content-end align-self-center">
+				<img id="have_knock" src="https://cdn0.iconfinder.com/data/icons/city-life-3/614/6471_-_Knocking-512.png" width="80px" height="90px">
+			</div>
+			<div class="col-2 d-flex justify-content-between align-self-center">
+				<img id="alert" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/OOjs_UI_icon_alert_destructive.svg/600px-OOjs_UI_icon_alert_destructive.svg.png" width="80px" height="80px">
+			</div>
+		</div>
+		<div class="message"></div>
+	</div>
+</body>
+
+<script type="text/javascript">
+$('#form').submit(function(e){
+	$.post('/ring/unlock_page/', $(this).serialize(), function(data){ 
+		$('.message').html(data.message);
+		console.log("unlock door");
+	});
+	e.preventDefault();
+	document.getElementById("unlock_icon").style.display = "block";
+	document.getElementById("lock_icon").style.display = "none";
+	setTimeout(lock_unlock_icon_turn_back, 2000);
+});
+lock_unlock_icon_turn_back = function() {
+	document.getElementById("unlock_icon").style.display = "none";
+	document.getElementById("lock_icon").style.display = "block";
+
+}
+
+// abnormal images
+var xhttp = new XMLHttpRequest();
+refresh_abnormal_time = function(){
+	abnormal_images = document.getElementsByClassName("abnormal_image");
+	for (i=0; i<abnormal_images.length; i++) {
+		url = "/ring/get_abnormal_image/"+i+"/";
+		abnormal_images.item(i).src = url+new Date().getTime();
+	}
+
+	abnormal_times = document.getElementsByClassName("abnormal_time");
+	for (i=0; i<abnormal_times.length; i++) {
+		url = "/ring/get_abnormal_time/"+i+"/";
+		xhttp.open("POST", url, false); 
+		xhttp.send();
+		abnormal_times.item(i).innerHTML = xhttp.responseText;
+	}
+	setTimeout(refresh_abnormal_time, 5000);
+}
+refresh_abnormal_time();
+
+// Check if door is knocked
+blink = false;
+have_knock = function() {
+	url = "/ring/have_knock/"
+	xhttp.open("POST", url, false);
+	xhttp.send();
+	value = xhttp.responseText;
+	console.log(value);
+	if (value=="0") {
+		blink = false; 
+		document.getElementById("have_knock").style.display = "none"; 	
+	} else {
+		blink = true;
+		document.getElementById("have_knock").style.display = "block";
+	}
+	setTimeout(have_knock, 500);
+}
+have_knock();
+
+have_knock_blink = function(){
+	if (blink==true){
+		if (document.getElementById("have_knock").style.display == "none") {
+			document.getElementById("have_knock").style.display = "block";
+		} else {
+			document.getElementById("have_knock").style.display = "none";
+		}
+	}
+	setTimeout(have_knock_blink, 500);
+}
+// have_knock_blink();
+
+// Check anomaly
+have_anomaly = function() {
+	url = "/ring/have_anomaly/"
+	xhttp.open("POST", url, false);
+	xhttp.send();
+	value = xhttp.responseText;
+	console.log(value);
+	if (value=="0") {
+		document.getElementById("alert").style.display = "none"; 	
+	} else {
+		document.getElementById("alert").style.display = "block";
+	}
+	setTimeout(have_anomaly, 500);
+}
+have_anomaly();
+
+
+// 勿擾
+quiet = document.getElementsByClassName("quiet");
+quiet.onclick = function() {
+	document.getElementById()("have_knock").style.display = "none";
+}
+</script>
+
+</html>
