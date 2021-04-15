@@ -1,0 +1,143 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!-- Latest compiled and minified CSS Bootstrap 4.0 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        @-moz-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Firefox */
+        @-webkit-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Webkit */
+        @-ms-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* IE */
+        @keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Opera and prob css3 final iteration */
+        #have_knock {
+            animation: blink 1s;
+            animation-iteration-count: infinite;
+            display: none;
+        }
+        #alert {
+            animation: blink 1s;
+            animation-iteration-count: infinite;
+            display: none;
+        }
+       
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Heading -->
+        <div class="row d-flex justify-content-center" style="padding:20px; border:5px solid black; margin:5px;">
+            <h1>IoT-2021 Spring <span class="badge badge-secondary">Hw1: Watch Door</span></h1>
+        </div>
+        <!-- Navbar -->
+        <div class="" style="margin:3px">
+            <div class="">
+                <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+                    <form class="form-inline" action="">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Username">
+                        </div>
+                    </form>
+                    <ul class="navbar-nav navbar-nav-right">
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">__________</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/"><i class="fas fa-home"></i>首頁</a>
+                        </li>|
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-microchip"></i>裝置</a>
+                        </li>|
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-bed"></i>睡眠</a>
+                        </li>|
+                        <li class="nav-item">
+                            <div class="nav-link quiet" href="#" onclick="quiet.onclick"><i class="fas fa-bell-slash"></i>勿擾</div>
+                        </li>|
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ring/logout"><i class="fas fa-sign-in-alt"></i>登出</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- Show device list -->
+        <div class="row">
+            <div class="col-12" style="background-color: hsla(89, 43%, 51%, 0.3);">
+                <br><br>
+                <center>
+                    <table>
+                        <thead>
+                            <h3>Device list</h3>
+                            <tr>
+                                <th>name</th>
+                                <th>UID</th>
+                                <th>link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {% for device in devices %}
+                          <tr>
+                              <td>{{ device.nick_name }}</td>
+                              <td>{{ device.uid }}</td>
+                              <td><a href="/ring/unlock_page/{{ device.uid }}">[watch door]</a></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                    </table>
+                </center>
+                <p style="text-align: right"><a href="/admin/ring/device">[control panel]</a></p>
+                <br><br>
+            </div>
+        </div>
+        <!-- Unlock form -->
+        <div class="row" style="background: #eeeeff;">
+            <div class="col-7 d-flex justify-content-end">
+                <div class="d-flex flex-column align-items-center">
+                    <strong> click to unlock </strong>
+                    <form action="" method="post" id="form"> {% csrf_token %}
+                        <button type="submit" value="OpenDoor" class="btn btn-success" id="unlock_button">
+                            <i class="fas fa-unlock-alt fa-5x" style="font-size: 50px; display: none;" id="unlock_icon"></i>
+                            <i class="fas fa-lock fa-5x" style="font-size:50px;" id="lock_icon"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-3 d-flex justify-content-end align-self-center">
+                <img id="have_knock" src="https://cdn0.iconfinder.com/data/icons/city-life-3/614/6471_-_Knocking-512.png" width="80px" height="90px">
+            </div>
+            <div class="col-2 d-flex justify-content-between align-self-center">
+                <img id="alert" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/OOjs_UI_icon_alert_destructive.svg/600px-OOjs_UI_icon_alert_destructive.svg.png" width="80px" height="80px">
+            </div>
+        </div>
+        <div class="message"></div>
+    </div>
+</body>
+<script type="text/javascript">
+
+// 登入form
+var modal = document.getElementById('id01');
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+</html>

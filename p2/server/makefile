@@ -6,3 +6,7 @@ migrate:
 	python3 manage.py makemigrations
 	python3 manage.py migrate --run-syncdb
 
+flush:
+	python3 manage.py migrate ring zero
+	python3 manage.py migrate ring 
+

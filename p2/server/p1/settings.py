@@ -24,6 +24,7 @@ SECRET_KEY = '8@nowq9fobyss6y-x=ag@$o*bm)u6g-fnp9wg3qyxwlwncyb42'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+#DEBUG = False 
 
 ALLOWED_HOSTS = ["*"]
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ring',
+    'django_q'
 ]
 
 MIDDLEWARE = [
@@ -119,3 +121,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
+#AUTH_USER_MODEL = "ring.User"

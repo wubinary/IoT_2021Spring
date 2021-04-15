@@ -1,0 +1,260 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <!-- Latest compiled and minified CSS Bootstrap 4.0 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        @-moz-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Firefox */
+        @-webkit-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Webkit */
+        @-ms-keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* IE */
+        @keyframes blink {0%{opacity:1;} 50%{opacity:0;} 100%{opacity:1;}} /* Opera and prob css3 final iteration */
+        #have_knock {
+            animation: blink 1s;
+            animation-iteration-count: infinite;
+            display: none;
+        }
+        #alert {
+            animation: blink 1s;
+            animation-iteration-count: infinite;
+            display: none;
+        }
+        /* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button.login {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!--Login-->
+        <div id="id01" class="modal">
+            <form class="modal-content animate" action="/ring/login" method="post"> {% csrf_token %}
+                <div class="imgcontainer">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    <img src="https://www.clipartmax.com/png/middle/290-2908659_login-icon-png-free-user-access-icon.png" alt="Avatar" class="avatar">
+                </div>
+                <div class="container">
+                    <label for="uname"><b>Username or DeviceUID</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+                    <button class="login" type="submit">Login</button>
+                    <label>
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
+                </div>
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </form>
+        </div>
+        <!-- Heading -->
+        <div class="row d-flex justify-content-center" style="padding:20px; border:5px solid black; margin:5px;">
+            <h1>IoT-2021 Spring <span class="badge badge-secondary">Hw1: Watch Door</span></h1>
+        </div>
+        <!-- Navbar -->
+        <div class="" style="margin:3px">
+            <div class="">
+                <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+                    <form class="form-inline" action="">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Username">
+                        </div>
+                    </form>
+                    <ul class="navbar-nav navbar-nav-right">
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">__________</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-home"></i>首頁</a>
+                        </li>|
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-microchip"></i>裝置</a>
+                        </li>|
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-bed"></i>睡眠</a>
+                        </li>|
+                        <li class="nav-item">
+                            <div class="nav-link quiet" href="#" onclick="quiet.onclick"><i class="fas fa-bell-slash"></i>勿擾</div>
+                        </li>|
+                        <li class="nav-item" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">
+                            <a class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i>登入</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <!-- Show Abnormal images & live-stream -->
+        <div class="row">
+            <div class="col-12" style="background-color: hsla(89, 43%, 51%, 0.3);">
+                <br><br><br><br><br>
+                <center>
+                    <p>
+                      Login please, thanks you very much !! &nbsp
+                      <button type="button" class="btn btn-primary" onclick="document.getElementById('id01').style.display='block'">Login</button>
+                    </p>
+                </center>
+                <br><br><br><br><br>
+            </div>
+        </div>
+        <!-- Unlock form -->
+        <div class="row" style="background: #eeeeff;">
+            <div class="col-7 d-flex justify-content-end">
+                <div class="d-flex flex-column align-items-center">
+                    <strong> click to unlock </strong>
+                    <form action="" method="post" id="form"> {% csrf_token %}
+                        <button type="submit" value="OpenDoor" class="btn btn-success" id="unlock_button">
+                            <i class="fas fa-unlock-alt fa-5x" style="font-size: 50px; display: none;" id="unlock_icon"></i>
+                            <i class="fas fa-lock fa-5x" style="font-size:50px;" id="lock_icon"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-3 d-flex justify-content-end align-self-center">
+                <img id="have_knock" src="https://cdn0.iconfinder.com/data/icons/city-life-3/614/6471_-_Knocking-512.png" width="80px" height="90px">
+            </div>
+            <div class="col-2 d-flex justify-content-between align-self-center">
+                <img id="alert" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/OOjs_UI_icon_alert_destructive.svg/600px-OOjs_UI_icon_alert_destructive.svg.png" width="80px" height="80px">
+            </div>
+        </div>
+        <div class="message"></div>
+    </div>
+</body>
+<script type="text/javascript">
+
+// 登入form
+var modal = document.getElementById('id01');
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+</html>
