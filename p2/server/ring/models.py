@@ -43,6 +43,14 @@ class Device(models.Model):
     def __unicode__(self):
         return self.uid 
 
+# Knock
+class Knock(models.Model):
+    device = models.ForeignKey(Device, on_delete=models.CASCADE)
+
+# Unlock
+class Unlock(models.Model):
+    device = models.ForeignKey(Device, on_delete=models.CASCADE)
+
 # Version Log
 class VersionLog(models.Model):
     device = models.ForeignKey(Device, on_delete=models.CASCADE)

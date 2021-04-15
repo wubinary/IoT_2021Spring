@@ -9,6 +9,8 @@ from .models import (
     User,
     Abnormal_Image,
     Device,
+    Knock,
+    Unlock,
     Version,
     VersionLog,
     Cookie,
@@ -195,11 +197,17 @@ def get_video_page_url(request, uid):
 def ring_reply(request, uid):
     if request.method == "GET":
         value = 0
+        '''
         with open(f'/home/iot/Desktop/iot_project/p2/server/tmp/{uid}/unlock.txt', 'r+') as f:
             value = f.read()
             f.seek(0)
             f.write(str(0))
             f.truncate()
+        '''
+        device = Device.objects.filter(uid=uid)[0]
+        if Unlock.objects.filter(device=device).exists():
+            value = 1
+            Unlock.objects.filter(device=device).delete()
         return HttpResponse(value)
 
 def ring_anomaly(request, uid):
@@ -238,26 +246,43 @@ def get_abnormal_image(request, uid, num, time):
 
 def knock(request, uid):
     if request.method == "GET":
+        '''
         # set knock
         with open(f'/home/iot/Desktop/iot_project/p2/server/tmp/{uid}/knock.txt', 'w') as f:
             f.write(str(1))
         # reset unlock
         with open(f'/home/iot/Desktop/iot_project/p2/server/tmp/{uid}/unlock.txt', 'w') as f:
             f.write(str(0))
+        '''
+        # set knock
+        device = Device.objects.filter(uid=uid)[0]
+        Knock.objects.create(device=device)
+        if Unlock.objects.filter(device=device).exists():
+            Unlock.objects.filter(device=device).delete()
     return HttpResponse("Good Job")
 
 def have_knock(request, uid):
     value = 0
     if request.method == "GET":
-        value = '0'
+        '''value = '0'
         if os.path.isfile(f'/home/iot/Desktop/iot_project/p2/server/tmp/{uid}/knock.txt'):
             with open(f'/home/iot/Desktop/iot_project/p2/server/tmp/{uid}/knock.txt', 'r') as f:
                 value = f.read()
-    return HttpResponse(value)
+        '''
+        device = Device.objects.filter(uid=uid)[0]
+        if Knock.objects.filter(device=device).exists():
+            value = 1
+    return HttpResponse(str(value))
 
 def unlock_page(request, uid):
     if request.method == "POST":
+        '''
         set(uid, unlock=1, knock=0, anomaly=0)
+        '''
+        device = Device.objects.filter(uid=uid)[0]
+        Unlock.objects.create(device=device)
+        if Knock.objects.filter(device=device).exists():
+            Knock.objects.filter(device=device).delete()
         return HttpResponse("Good Job Unlock door!!")
     video_page_url = "" 
     if os.path.isfile(f'/home/iot/Desktop/iot_project/p2/server/tmp/{uid}/video_page_url.txt'):
@@ -312,7 +337,14 @@ def device_list(request):
 
 def lock(request, uid):
     if request.method == "GET":
+        '''
         set(uid, unlock=0, knock=0, anomaly=0)
+        '''
+        device = Device.objects.filter(uid=uid)[0]
+        if Unlock.objects.filter(device=device).exists():
+            Unlock.objects.filter(device=device).delete()
+        if Knock.objects.filter(device=device).exists():
+            Knock.objects.filter(device=device).delete()
     return HttpResponse("Lock")
 
 def set(uid, unlock, knock, anomaly=0):
