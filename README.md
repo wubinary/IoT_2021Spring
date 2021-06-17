@@ -4,7 +4,8 @@
 
 ## Project 2: Device Deployment & Configuration Management
 
-## Project 3: Iot Security : Penetration Test
+## Project 3: Iot Security : Wi-Fi Penetration Testing
 
-## Project 4: Wifi Indoor Localization
+## Project 4: Indoor-Positioning System
 
+## Project 5: Automatic Guided Vehicle (AGV)
